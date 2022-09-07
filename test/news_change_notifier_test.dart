@@ -28,11 +28,9 @@ void main() {
     ];
 
     void arrangeNewsServiceReturn3Article() {
-      when(() => mockNewsService.getArticles()).thenAnswer((_) async => [
-            Article(title: "Test 1", content: "Test 1 content"),
-            Article(title: "Test 2", content: "Test 2 content"),
-            Article(title: "Test 3", content: "Test 3 content"),
-          ]);
+      when(() => mockNewsService.getArticles()).thenAnswer(
+        (_) async => articlesFromService,
+      );
     }
 
     test("gets articles using the NewsService", () async {

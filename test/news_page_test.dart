@@ -63,11 +63,26 @@ void main() {
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pump(const Duration(milliseconds: 500));
-      
+
       expect(find.byKey(const Key("progress")), findsOneWidget);
 
       await tester.pumpAndSettle();
     },
   );
 
+  testWidgets(
+    "articles are displayed",
+    (WidgetTester tester) async {
+      arrangeNewsServiceReturn3Article();
+
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.pump();
+
+      for (final article in articlesFromService) {
+        expect(find.text(article.title), findsOneWidget);
+        expect(find.text(article.content), findsOneWidget);
+      }
+    },
+  );
 }

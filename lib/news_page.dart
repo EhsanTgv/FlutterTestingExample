@@ -26,7 +26,7 @@ class _NewsPageState extends State<NewsPage> {
       body: Consumer<NewsChangeNotifier>(
         builder: ((context, notifier, child) {
           if (notifier.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(key: Key("progress"),));
           }
           return ListView.builder(
             itemCount: notifier.articles.length,

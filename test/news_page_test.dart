@@ -28,6 +28,15 @@ void main() {
     );
   }
 
+  void arrangeNewsServiceReturn3ArticleAfter2SecondsWait() {
+    when(() => mockNewsService.getArticles()).thenAnswer(
+      (_) async {
+        await Future.delayed(const Duration(seconds: 2));
+        return articlesFromService;
+      },
+    );
+  }
+
   Widget createWidgetUnderTest() {
     return MaterialApp(
       title: 'News App',
@@ -46,4 +55,19 @@ void main() {
       expect(find.text("News"), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'loading indicator is displayed while waiting for articles',
+    (WidgetTester tester) async {
+      arrangeNewsServiceReturn3ArticleAfter2SecondsWait();
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump(const Duration(milliseconds: 500));
+      
+      expect(find.byKey(const Key("progress")), findsOneWidget);
+
+      await tester.pumpAndSettle();
+    },
+  );
+
 }
